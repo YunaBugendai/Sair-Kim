@@ -1,613 +1,208 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Şair Kim?</title>
+<meta name="theme-color" content="#f5edff">
+<title>Şair Kim? — Şiir Dedektifleri</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap');
-
-:root {
-  --ink: #30264e;
-  --purple: #7958e8;
-  --pink: #ff719d;
-  --yellow: #ffcf5c;
-  --teal: #50d6c5;
-  --paper: #fffdf8;
-  --muted: #766e91;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  padding: 28px 16px 60px;
-  color: var(--ink);
-  font-family: 'Nunito', sans-serif;
-  background-color: #f5edff;
-  background-image:
-    radial-gradient(circle at 8% 15%, #ffcf5c80 0 65px, transparent 67px),
-    radial-gradient(circle at 92% 22%, #ff719d45 0 95px, transparent 97px),
-    radial-gradient(circle at 12% 85%, #50d6c545 0 110px, transparent 112px),
-    radial-gradient(circle at 90% 80%, #a18aff45 0 80px, transparent 82px);
-}
-
-body::before {
-  content: "✦  ✧  ★  ✦";
-  position: fixed;
-  top: 12px;
-  right: 18px;
-  font-size: 25px;
-  letter-spacing: 12px;
-  color: #7958e8;
-  opacity: .55;
-  pointer-events: none;
-}
-
-body > h1,
-body > p,
-body > section {
-  width: min(100%, 760px);
-  margin-left: auto;
-  margin-right: auto;
-}
-
-body > h1 {
-  text-align: center;
-  font: 700 clamp(38px, 8vw, 64px)/1.1 'Fredoka', sans-serif;
-  color: var(--purple);
-  letter-spacing: -1px;
-  text-shadow: 0 4px 0 #d8caff;
-  margin-top: 24px;
-  margin-bottom: 10px;
-}
-
-body > p {
-  text-align: center;
-  font-size: 17px;
-  font-weight: 800;
-  color: var(--muted);
-  margin-bottom: 30px;
-}
-
-section {
-  background: var(--paper);
-  padding: clamp(20px, 5vw, 34px);
-  margin-top: 20px;
-  margin-bottom: 20px;
-  border: 3px solid white;
-  border-radius: 28px;
-  box-shadow:
-    0 8px 0 #dcd0fa,
-    0 15px 35px #49307812;
-  position: relative;
-  animation: popIn .45s ease both;
-}
-
-section:nth-of-type(2) {
-  animation-delay: .08s;
-}
-
-h2 {
-  font: 700 25px/1.2 'Fredoka', sans-serif;
-  color: var(--purple);
-  margin: 0 0 18px;
-}
-
-#phase {
-  display: inline-block;
-  padding: 10px 17px;
-  color: white;
-  background: var(--purple);
-  border-radius: 14px;
-  transform: rotate(-1deg);
-}
-
-#status {
-  display: inline-block;
-  margin: 12px 0;
-  padding: 8px 13px;
-  background: #fff0bd;
-  border-radius: 999px;
-  font-weight: 900;
-  font-size: 14px;
-}
-
-#message {
-  padding: 14px 16px;
-  background: #f0ebff;
-  border-left: 5px solid var(--purple);
-  border-radius: 12px;
-  font-weight: 800;
-  line-height: 1.5;
-}
-
-#questions,
-#guesses {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
-  gap: 13px;
-  margin: 22px 0;
-}
-
-button {
-  font: 800 16px/1.35 'Nunito', sans-serif;
-  color: var(--ink);
-  background: white;
-  border: 2px solid #e3dcf6;
-  border-radius: 17px;
-  padding: 15px 17px;
-  min-height: 58px;
-  cursor: pointer;
-  box-shadow: 0 5px 0 #e3dcf6;
-  transition:
-    transform .16s ease,
-    box-shadow .16s ease,
-    background .16s ease;
-}
-
-#questions button {
-  text-align: left;
-  background: #fff;
-}
-
-#questions button::before {
-  content: "💬 ";
-}
-
-#questions button:nth-child(4n + 1) {
-  border-color: #ffb4ca;
-  box-shadow: 0 5px 0 #ffb4ca;
-}
-
-#questions button:nth-child(4n + 2) {
-  border-color: #bdb0ff;
-  box-shadow: 0 5px 0 #bdb0ff;
-}
-
-#questions button:nth-child(4n + 3) {
-  border-color: #8ce5d9;
-  box-shadow: 0 5px 0 #8ce5d9;
-}
-
-#questions button:nth-child(4n) {
-  border-color: #ffda81;
-  box-shadow: 0 5px 0 #ffda81;
-}
-
-button:hover {
-  transform: translateY(-3px) rotate(-.5deg);
-  filter: saturate(1.1);
-}
-
-button:active {
-  transform: translateY(3px);
-  box-shadow: none !important;
-}
-
-#guesses button {
-  background: #f0ebff;
-  border: 3px solid #c8b9ff;
-  box-shadow: 0 5px 0 #c8b9ff;
-  text-align: center;
-  font: 700 20px 'Fredoka', sans-serif;
-  padding: 25px 15px;
-}
-
-#guesses button::before {
-  content: "🖋️";
-  display: block;
-  font-size: 34px;
-  margin-bottom: 10px;
-}
-
-#restart {
-  background: var(--yellow);
-  border: 2px solid #f2bd40;
-  box-shadow: 0 5px 0 #e5ae32;
-  margin-top: 12px;
-}
-
-#history p {
-  padding: 14px 16px;
-  margin: 10px 0;
-  background: #f4f0ff;
-  border: 2px solid #e7dfff;
-  border-radius: 14px;
-  font-weight: 800;
-  line-height: 1.5;
-}
-
-#history p:nth-child(3n + 1) {
-  background: #fff1f5;
-  border-color: #ffd1df;
-}
-
-#history p:nth-child(3n + 2) {
-  background: #eafffb;
-  border-color: #c5f4ed;
-}
-
-#history p:nth-child(3n) {
-  background: #fff8e5;
-  border-color: #ffe7a6;
-}
-
-#history p::first-letter {
-  color: var(--purple);
-}
-
-[hidden] {
-  display: none !important;
-}
-
-.muted {
-  color: var(--muted);
-}
-
-@keyframes popIn {
-  from {
-    opacity: 0;
-    transform: translateY(12px) scale(.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@media (max-width: 500px) {
-  body {
-    padding: 18px 12px 35px;
-  }
-
-  body > h1 {
-    margin-top: 35px;
-  }
-
-  section {
-    border-radius: 22px;
-    padding: 19px;
-  }
-
-  h2 {
-    font-size: 22px;
-  }
-
-  #questions,
-  #guesses {
-    grid-template-columns: 1fr;
-  }
-
-  button {
-    min-height: 54px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation: none !important;
-    transition: none !important;
-  }
-}
-
-#questions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 0;
-  padding: 28px 12px 38px;
-}
-
-#questions button {
-  box-sizing: border-box;
-  position: relative;
-  width: 190px;
-  min-height: 150px;
-  margin: 0 -13px;
-  padding: 18px 15px;
-  border: 4px solid white;
-  border-radius: 20px;
-  background: #ffe082;
-  color: #27304f;
-  box-shadow: 0 5px 0 #00000020, 0 9px 18px #00000018;
-  font-family: 'Nunito', sans-serif;
-  font-size: 15px;
-  font-weight: 800;
-  line-height: 1.4;
-  cursor: pointer;
-  transform: rotate(-3deg);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-#questions button:nth-child(4n + 1) {
-  background: #ffcf70;
-  transform: rotate(-6deg);
-}
-
-#questions button:nth-child(4n + 2) {
-  background: #a8e6cf;
-  transform: rotate(3deg);
-}
-
-#questions button:nth-child(4n + 3) {
-  background: #b8d9ff;
-  transform: rotate(-2deg);
-}
-
-#questions button:nth-child(4n) {
-  background: #ffc4d6;
-  transform: rotate(5deg);
-}
-
-#questions button:hover {
-  z-index: 5;
-  transform: translateY(-12px) rotate(0deg) scale(1.04);
-  box-shadow: 0 8px 0 #00000015, 0 15px 25px #00000020;
-}
-
-#questions button:active {
-  transform: scale(0.96);
-}
-
-#questions .question-category {
-  display: block;
-  margin-bottom: 12px;
-  color: #4b4773;
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-}
-
-#questions .more-questions {
-  width: auto;
-  min-height: 44px;
-  margin: 22px 0 0;
-  padding: 10px 18px;
-  transform: rotate(0deg);
-  background: #ffffff;
-  font-size: 13px;
-}
-
+:root{color-scheme:light;--bg:#f5edff;--panel:#fffdf8;--ink:#30264e;--muted:#766e91;--accent:#7958e8;--accent2:#ff719d;--line:#e3dcf6;--shadow:#dcd0fa;--card1:#ffcf70;--card2:#a8e6cf;--card3:#b8d9ff;--card4:#ffc4d6;--good:#18794e;--bad:#b42318}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#171526;--panel:#242139;--ink:#f5f0ff;--muted:#c0b8d7;--accent:#b7a4ff;--accent2:#ff9abb;--line:#46405f;--shadow:#100e1b;--card1:#6a5326;--card2:#205d50;--card3:#284b70;--card4:#71354b;--good:#80e6b0;--bad:#ffaaa5}
+*{box-sizing:border-box} [hidden]{display:none!important} body{margin:0;min-height:100vh;padding:24px 14px 50px;color:var(--ink);font-family:'Nunito',sans-serif;background-color:var(--bg);background-image:radial-gradient(circle at 8% 12%,#ffcf5c45 0 70px,transparent 72px),radial-gradient(circle at 94% 20%,#ff719d35 0 100px,transparent 102px),radial-gradient(circle at 10% 90%,#50d6c530 0 110px,transparent 112px);transition:background-color .2s,color .2s}
+main{width:min(100%,1000px);margin:auto}.topbar{display:flex;justify-content:flex-end;gap:8px;align-items:center}.title{text-align:center;font:700 clamp(42px,8vw,68px)/1.05 'Fredoka',sans-serif;color:var(--accent);letter-spacing:-1px;text-shadow:0 4px 0 var(--shadow);margin:12px 0 6px}.subtitle{text-align:center;color:var(--muted);font-weight:800;margin:0 0 24px}.panel{background:var(--panel);padding:clamp(17px,4vw,30px);margin:16px 0;border:2px solid var(--line);border-radius:25px;box-shadow:0 7px 0 var(--shadow),0 14px 32px #20123b10}.panel h2{font:600 25px/1.2 'Fredoka',sans-serif;color:var(--accent);margin:0 0 14px}.topline{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:8px 13px;background:color-mix(in srgb,var(--accent) 13%,var(--panel));font-weight:900;font-size:14px}.message{padding:14px 16px;background:color-mix(in srgb,var(--accent) 9%,var(--panel));border-left:5px solid var(--accent);border-radius:12px;font-weight:800;line-height:1.5;margin:15px 0}.progress-track{height:10px;border-radius:99px;background:var(--line);overflow:hidden;margin:12px 0 18px}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px;transition:width .25s}.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:12px 0 8px}.controls label{font-weight:900}.controls select,.settings select{font:700 15px 'Nunito',sans-serif;color:var(--ink);background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:10px 12px;max-width:100%}button{font:800 15px/1.35 'Nunito',sans-serif;color:var(--ink);background:var(--panel);border:2px solid var(--line);border-radius:15px;padding:12px 15px;min-height:46px;cursor:pointer;box-shadow:0 4px 0 var(--line);transition:transform .15s,box-shadow .15s,filter .15s}button:hover{transform:translateY(-2px);filter:saturate(1.08)}button:active{transform:translateY(2px);box-shadow:none}button:focus-visible,select:focus-visible{outline:3px solid var(--accent2);outline-offset:3px}.primary{background:var(--accent);border-color:var(--accent);color:white;box-shadow:0 4px 0 color-mix(in srgb,var(--accent) 60%,black)}.secondary{background:color-mix(in srgb,var(--accent) 10%,var(--panel))}.danger{border-color:#f4b3b3;color:var(--bad)}#questions{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:0;padding:22px 10px 30px;min-height:130px} .question-card{position:relative;width:clamp(145px,24vw,205px);min-height:170px;margin:0 -8px;padding:17px 14px;border:4px solid var(--panel);border-radius:20px;text-align:left;box-shadow:0 5px 0 #00000020,0 9px 18px #00000018;display:flex;flex-direction:column;justify-content:space-between;gap:13px;color:#29213f}.question-card:nth-child(4n+1){background:var(--card1);transform:rotate(-5deg)}.question-card:nth-child(4n+2){background:var(--card2);transform:rotate(3deg)}.question-card:nth-child(4n+3){background:var(--card3);transform:rotate(-2deg)}.question-card:nth-child(4n){background:var(--card4);transform:rotate(4deg)}.question-card:hover{z-index:5;transform:translateY(-10px) rotate(0) scale(1.035)}.question-category{display:inline-block;align-self:flex-start;background:#ffffffb8;border-radius:999px;padding:5px 8px;font-size:10px;font-weight:1000;letter-spacing:.45px;text-transform:uppercase;color:#45365f}.question-text{font-size:15px;font-weight:900;line-height:1.35}.card-number{font-size:11px;font-weight:900;opacity:.7}.more-row{width:100%;text-align:center;margin-top:24px}.more-row button{transform:none!important}.guess-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px;margin-top:16px}.guess-button{min-height:68px;text-align:center;font:700 19px 'Fredoka',sans-serif;background:color-mix(in srgb,var(--accent) 9%,var(--panel))}.guess-button:disabled{opacity:.45;cursor:not-allowed}.history-list{display:grid;gap:9px}.history-item{padding:12px 14px;border:1px solid var(--line);border-radius:13px;background:color-mix(in srgb,var(--accent) 5%,var(--panel));display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}.history-item small{display:block;color:var(--muted);font-weight:900;margin-bottom:4px}.answer{font-weight:1000;padding:5px 9px;border-radius:999px;background:color-mix(in srgb,var(--good) 12%,var(--panel));color:var(--good)}.answer.no{background:color-mix(in srgb,var(--bad) 10%,var(--panel));color:var(--bad)}.candidates{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}.candidate{font-size:13px;font-weight:800;border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:color-mix(in srgb,var(--accent) 7%,var(--panel))}.candidate.out{opacity:.35;text-decoration:line-through}.settings{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.settings details{width:100%}.settings summary{cursor:pointer;font-weight:1000;color:var(--accent);padding:4px 0 12px}.setting-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line)}.small{font-size:13px;color:var(--muted);line-height:1.5}.end-banner{padding:16px;border-radius:16px;background:color-mix(in srgb,var(--good) 12%,var(--panel));font-weight:900;line-height:1.5}.footer{text-align:center;color:var(--muted);font-size:12px;margin:24px 0 0}@media(max-width:560px){body{padding:14px 10px 30px}.panel{border-radius:20px;padding:17px}.question-card{width:44%;min-height:155px;margin:0 -4px;padding:13px 11px}.question-text{font-size:14px}.question-category{font-size:9px}.topbar{justify-content:center}.history-item{grid-template-columns:1fr auto}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
-
-<h1>Şair Kim?</h1>
-<p class="muted">Soruları cevapla, ipuçlarını biriktir ve şairi tahmin et.</p>
-
-<section>
-  <h2 id="phase">Soru turu</h2>
-  <p id="status">Sorular: 0</p>
-  <p id="message">İlk tahmin 5 sorudan sonra açılır.</p>
-  <div id="questions"></div>
-  <div id="guesses" hidden></div>
-  <button id="restart">Oyunu sıfırla</button>
-</section>
-
-<section>
-  <h2>Soru geçmişi</h2>
-  <div id="history">Henüz soru sorulmadı.</div>
-</section>
-
+<main>
+  <div class="topbar"><button id="themeQuick" class="secondary" type="button" aria-label="Temayı değiştir">🌙 Koyu tema</button><button id="newGameTop" type="button">↻ Yeni oyun</button></div>
+  <h1 class="title">Şair Kim?</h1><p class="subtitle">Şiir Dedektifleri · Sor, ipuçlarını biriktir, şairi bul!</p>
+  <section class="panel" aria-labelledby="gameHeading">
+    <div class="topline"><h2 id="gameHeading">🔎 Dedektif masası</h2><span class="pill" id="poetCount">25 şair · 100 soru</span></div>
+    <div class="topline"><span class="pill" id="phase">Soru turu</span><span class="pill" id="status">0 / 100 soru</span><span class="pill" id="candidateCount">25 olası şair</span></div>
+    <div class="progress-track" role="progressbar" aria-label="Soruların ilerlemesi" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressTrack"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="message" id="message" aria-live="polite">İlk tahmin 5 sorudan sonra açılır. Sonrasında her 3 soruda bir tahmin yapabilirsin.</div>
+    <div class="controls"><label for="categoryFilter">Kategori:</label><select id="categoryFilter"><option value="all">Tüm kategoriler</option><option>Hayatı</option><option>Edebî dönem</option><option>Akım ve topluluk</option><option>Şiir anlayışı</option><option>Eserleri</option></select><button id="showCandidates" type="button" class="secondary">Olası şairleri göster</button></div>
+    <div id="candidatePanel" hidden><p class="small">Önceki cevaplarınla çelişmeyen şairler:</p><div id="candidateList" class="candidates"></div></div>
+    <div id="questions" aria-label="Soru kartları"></div>
+    <div id="guesses" class="guess-grid" hidden></div>
+    <div class="controls"><button id="restart" class="primary" type="button">↻ Oyunu sıfırla</button><button id="giveUp" class="danger" type="button">Cevabı göster</button></div>
+    <div id="result" hidden></div>
+  </section>
+  <section class="panel settings" aria-labelledby="settingsHeading"><details id="settingsDetails"><summary id="settingsHeading">⚙️ Ayarlar</summary><div class="setting-row"><div><strong>Görünüm</strong><div class="small">Açık veya koyu tema seç.</div></div><select id="themeSelect" aria-label="Tema seç"><option value="light">Açık tema</option><option value="dark">Koyu tema</option></select></div><div class="setting-row"><div><strong>Soru kartı sayısı</strong><div class="small">Her turda kaç kart görünsün?</div></div><select id="cardsPerTurn" aria-label="Gösterilecek kart sayısı"><option value="3">3 kart</option><option value="4" selected>4 kart</option><option value="5">5 kart</option><option value="6">6 kart</option></select></div><p class="small">Tema tercihi bu tarayıcıda hatırlanır. Oyun çevrimdışı çok oyunculu değildir; bu sürüm tek cihazda çalışır.</p></details></section>
+  <section class="panel" aria-labelledby="historyHeading"><div class="topline"><h2 id="historyHeading">📜 Soru geçmişi</h2><span class="pill" id="historyCount">0 kayıt</span></div><div id="history" class="history-list"><p class="small">Henüz soru sorulmadı.</p></div></section>
+  <p class="footer">Şair Kim? · Eğitim amaçlı oyun prototipi</p>
+</main>
 <script>
+// Şair bilgileri: dönem, akım, şiir özellikleri ve bilinen eserler.
+// Sorular ortak kategorilerde tutulur; her kart kendi kategorisini gösterir.
 const poets = [
-  {
-    name: "Orhan Veli Kanık",
-    image: "",
-    facts: {
-      republic: true,
-      garip: true,
-      freeVerse: true,
-      syllabic: false,
-      bornBefore1900: false
-    }
-  }
+ {name:"Orhan Veli Kanık",birth:1914,death:1950,place:"İstanbul",gender:"erkek",periods:["Cumhuriyet dönemi"],movements:["Garip"],styles:["serbest ölçü","sade dil","gündelik hayat","mizah"],traits:["çevirmen"],works:["Anlatamıyorum","İstanbul'u Dinliyorum"]},
+ {name:"Yunus Emre",birth:1238,death:1320,place:"Anadolu",gender:"erkek",periods:["Tekke-tasavvuf edebiyatı","Halk edebiyatı"],movements:["Tasavvuf şiiri","Halk şiiri"],styles:["hece ölçüsü","sade dil","tasavvuf","sevgi"],traits:["tasavvuf"],works:["Risaletü'n-Nushiyye"]},
+ {name:"Karacaoğlan",birth:1606,death:1689,place:"Çukurova",gender:"erkek",periods:["Halk edebiyatı"],movements:["Âşık tarzı halk şiiri"],styles:["hece ölçüsü","sade dil","doğa","aşk"],traits:["halk şairi"],works:[]},
+ {name:"Fuzuli",birth:1483,death:1556,place:"Kerbela çevresi",gender:"erkek",periods:["Divan edebiyatı"],movements:["Divan şiiri"],styles:["aruz ölçüsü","aşk","tasavvuf"],traits:["divan şairi"],works:["Leylâ vü Mecnun"]},
+ {name:"Bâkî",birth:1526,death:1600,place:"İstanbul",gender:"erkek",periods:["Divan edebiyatı"],movements:["Divan şiiri"],styles:["aruz ölçüsü","sanatlı dil"],traits:["divan şairi"],works:[]},
+ {name:"Nedim",birth:1681,death:1730,place:"İstanbul",gender:"erkek",periods:["Divan edebiyatı","Lale Devri"],movements:["Divan şiiri"],styles:["aruz ölçüsü","şenlik ve eğlence","İstanbul sevgisi"],traits:["divan şairi"],works:[]},
+ {name:"Şeyh Galip",birth:1757,death:1799,place:"İstanbul",gender:"erkek",periods:["Divan edebiyatı"],movements:["Divan şiiri"],styles:["aruz ölçüsü","tasavvuf","sembolik anlatım"],traits:["tasavvuf"],works:["Hüsn ü Aşk"]},
+ {name:"Namık Kemal",birth:1840,death:1888,place:"Tekirdağ",gender:"erkek",periods:["Tanzimat edebiyatı"],movements:["Tanzimat"],styles:["vatan sevgisi","özgürlük","toplumsal konular"],traits:["gazeteci","oyun yazarı"],works:["Hürriyet Kasidesi","Vatan Yahut Silistre"]},
+ {name:"Tevfik Fikret",birth:1867,death:1915,place:"İstanbul",gender:"erkek",periods:["Servetifünun"],movements:["Servetifünun"],styles:["aruz ölçüsü","sembolizm","toplumsal konular"],traits:["öğretmen"],works:["Sis"]},
+ {name:"Mehmet Âkif Ersoy",birth:1873,death:1936,place:"İstanbul",gender:"erkek",periods:["Millî Edebiyat","Cumhuriyet öncesi"],movements:["Millî edebiyat"],styles:["aruz ölçüsü","toplumsal konular","vatan sevgisi","sade dil"],traits:["öğretmen","veteriner hekim","millî şair"],works:["Safahat","İstiklâl Marşı"]},
+ {name:"Yahya Kemal Beyatlı",birth:1884,death:1958,place:"Üsküp",gender:"erkek",periods:["Millî Edebiyat","Cumhuriyet dönemi"],movements:["Nev-Yunanilik etkisi"],styles:["aruz ölçüsü","tarih","İstanbul sevgisi"],traits:["diplomat","öğretmen"],works:["Sessiz Gemi"]},
+ {name:"Ahmet Haşim",birth:1884,death:1933,place:"Bağdat",gender:"erkek",periods:["Fecr-i Âti","Cumhuriyet öncesi"],movements:["Fecr-i Âti","Sembolizm"],styles:["aruz ölçüsü","sembolizm","bireysel duygular","doğa"],traits:["öğretmen"],works:["Merdiven","O Belde"]},
+ {name:"Nâzım Hikmet",birth:1902,death:1963,place:"Selanik",gender:"erkek",periods:["Cumhuriyet dönemi"],movements:["Toplumcu gerçekçi şiir"],styles:["serbest ölçü","toplumsal konular","barış","emek"],traits:["oyun yazarı"],works:["Kuvâyi Milliye Destanı","Memleketimden İnsan Manzaraları"]},
+ {name:"Necip Fazıl Kısakürek",birth:1904,death:1983,place:"İstanbul",gender:"erkek",periods:["Cumhuriyet dönemi"],movements:["Bireysel şiir"],styles:["hece ölçüsü","metafizik","yalnızlık","tasavvuf"],traits:["oyun yazarı"],works:["Kaldırımlar","Çile"]},
+ {name:"Cahit Sıtkı Tarancı",birth:1910,death:1956,place:"Diyarbakır",gender:"erkek",periods:["Cumhuriyet dönemi"],movements:["Saf şiir"],styles:["hece ölçüsü","ölüm","yaşam sevinci","bireysel duygular"],traits:["çevirmen"],works:["Otuz Beş Yaş"]},
+ {name:"Melih Cevdet Anday",birth:1915,death:2002,place:"İstanbul",gender:"erkek",periods:["Cumhuriyet dönemi"],movements:["Garip","İkinci Yeni etkisi"],styles:["serbest ölçü","sade dil","gündelik hayat","felsefe"],traits:["oyun yazarı","çevirmen"],works:["Rahatı Kaçan Ağaç"]},
+ {name:"Oktay Rifat",birth:1914,death:1988,place:"Trabzon",gender:"erkek",periods:["Cumhuriyet dönemi"],movements:["Garip","İkinci Yeni etkisi"],styles:["serbest ölçü","sade dil","gündelik hayat"],traits:["oyun yazarı","çevirmen"],works:["Perçemli Sokak"]},
+ {name:"Attilâ İlhan",birth:1925,death:2005,place:"Menemen",gender:"erkek",periods:["Cumhuriyet dönemi"],movements:["Maviciler"],styles:["serbest ölçü","toplumsal konular","aşk","kent yaşamı"],traits:["gazeteci","senarist"],works:["Ben Sana Mecburum"]},
+ {name:"Cemal Süreya",birth:1931,death:1990,place:"Erzincan",gender:"erkek",periods:["Cumhuriyet dönemi"],movements:["İkinci Yeni"],styles:["serbest ölçü","imge yoğunluğu","aşk","kent yaşamı"],traits:["çevirmen"],works:["Üvercinka"]},
+ {name:"Edip Cansever",birth:1928,death:1986,place:"İstanbul",gender:"erkek",periods:["Cumhuriyet dönemi"],movements:["İkinci Yeni"],styles:["serbest ölçü","imge yoğunluğu","varoluş","kent yaşamı"],traits:[],works:["Mendilimde Kan Sesleri"]},
+ {name:"Turgut Uyar",birth:1927,death:1985,place:"Ankara",gender:"erkek",periods:["Cumhuriyet dönemi"],movements:["İkinci Yeni"],styles:["serbest ölçü","imge yoğunluğu","varoluş","kent yaşamı"],traits:["asker"],works:["Göğe Bakma Durağı"]},
+ {name:"Sezai Karakoç",birth:1933,death:2021,place:"Ergani",gender:"erkek",periods:["Cumhuriyet dönemi"],movements:["İkinci Yeni etkisi","Diriliş düşüncesi"],styles:["serbest ölçü","tasavvuf","metafizik","inanç"],traits:["düşünür"],works:["Mona Roza"]},
+ {name:"Fazıl Hüsnü Dağlarca",birth:1914,death:2008,place:"İstanbul",gender:"erkek",periods:["Cumhuriyet dönemi"],movements:["Bağımsız şiir"],styles:["serbest ölçü","çocuk","doğa","vatan sevgisi"],traits:["asker"],works:["Çocuk ve Allah"]},
+ {name:"Özdemir Asaf",birth:1923,death:1981,place:"Ankara",gender:"erkek",periods:["Cumhuriyet dönemi"],movements:["Bağımsız şiir"],styles:["serbest ölçü","kısa şiir","aşk","düşünce"],traits:["yayıncı"],works:["Lavinia"]},
+ {name:"Gülten Akın",birth:1933,death:2015,place:"Yozgat",gender:"kadın",periods:["Cumhuriyet dönemi"],movements:["Toplumcu şiir"],styles:["hece ölçüsü","toplumsal konular","kadın deneyimi","halk şiiri etkisi"],traits:["öğretmen","avukat"],works:["Kestim Kara Saçlarımı"]},
 ];
 
-const questions = [
-  { key: "republic", text: "Cumhuriyet döneminde eser verdi mi?", category: "Dönemi" },
-  { key: "garip", text: "Garip akımının kurucularından biri mi?", category: "Şiir Anlayışı" },
-  { key: "freeVerse", text: "Serbest ölçüyle şiirler yazdı mı?", category: "Şiir Tarzı" },
-  { key: "syllabic", text: "Hece ölçüsünü temel ölçü olarak kullandı mı?", category: "Şiir Tarzı" },
-  { key: "bornBefore1900", text: "1900 yılından önce mi doğdu?", category: "Hayatı" }
-];
+const categories = ["Hayatı","Edebî dönem","Akım ve topluluk","Şiir anlayışı","Eserleri"];
+const questions = [];
+function addQuestion(category,text,test){questions.push({id:`q${questions.length+1}`,category,text,test});}
+// 20 HAYATI sorusu
+[
+ ["Şair 1900 yılından önce mi doğdu?",p=>p.birth<1900],
+ ["Şair 1900–1919 yılları arasında mı doğdu?",p=>p.birth>=1900&&p.birth<1920],
+ ["Şair 1920 veya sonrasında mı doğdu?",p=>p.birth>=1920],
+ ["Şair 1950 yılından önce mi vefat etti?",p=>p.death<1950],
+ ["Şair 1980 veya sonrasında mı vefat etti?",p=>p.death>=1980],
+ ["Şair İstanbul'da mı doğdu?",p=>p.place==="İstanbul"],
+ ["Şair Anadolu'da doğdu mu?",p=>["Anadolu","Çukurova","Tekirdağ","Trabzon","Menemen","Erzincan","Ergani","Diyarbakır","Sivas","Yozgat","Ankara"].includes(p.place)],
+ ["Şair kadın mı?",p=>p.gender==="kadın"],
+ ["Şair öğretmenlik yaptı mı?",p=>p.traits.includes("öğretmen")],
+ ["Şair gazetecilik yaptı mı?",p=>p.traits.includes("gazeteci")],
+ ["Şair çeviriler yaptı mı?",p=>p.traits.includes("çevirmen")],
+ ["Şair tiyatro oyunu yazdı mı?",p=>p.traits.includes("oyun yazarı")],
+ ["Şair askerlik mesleğinde görev yaptı mı?",p=>p.traits.includes("asker")],
+ ["Şair halk şairi veya âşık geleneğiyle mi tanınır?",p=>p.traits.includes("halk şairi")],
+ ["Şair tasavvufla ilişkili bir yaşam veya düşünce çizgisine sahip mi?",p=>p.traits.includes("tasavvuf")||p.styles.includes("tasavvuf")],
+ ["Şair 2000 yılından sonra mı vefat etti?",p=>p.death>2000],
+ ["Şair 1900'lerin ilk yarısında mı vefat etti?",p=>p.death>=1900&&p.death<1950],
+ ["Şairin doğum yılı 1930 veya sonrası mı?",p=>p.birth>=1930],
+ ["Şairin doğum yeri bugünkü Türkiye sınırları dışında mı?",p=>["Selanik","Üsküp","Bağdat"].includes(p.place)],
+ ["Şair aynı zamanda düşünür veya fikir insanı olarak mı tanınır?",p=>p.traits.includes("düşünür")]
+].forEach(([t,f])=>addQuestion("Hayatı",t,f));
+// 20 EDEBÎ DÖNEM sorusu
+[
+ ["Divan edebiyatı döneminde mi eser verdi?",p=>p.periods.includes("Divan edebiyatı")],
+ ["Tanzimat edebiyatı döneminde mi eser verdi?",p=>p.periods.includes("Tanzimat edebiyatı")],
+ ["Servetifünun döneminde mi öne çıktı?",p=>p.periods.includes("Servetifünun")],
+ ["Fecr-i Âti topluluğuyla ilişkili mi?",p=>p.periods.includes("Fecr-i Âti")],
+ ["Millî Edebiyat dönemiyle ilişkili mi?",p=>p.periods.includes("Millî Edebiyat")],
+ ["Cumhuriyet döneminde eser verdi mi?",p=>p.periods.includes("Cumhuriyet dönemi")],
+ ["Halk edebiyatı geleneğinde mi yer alır?",p=>p.periods.includes("Halk edebiyatı")],
+ ["Tekke-tasavvuf edebiyatıyla ilişkili mi?",p=>p.periods.includes("Tekke-tasavvuf edebiyatı")],
+ ["Lale Devri ile ilişkilendirilen şairlerden mi?",p=>p.periods.includes("Lale Devri")],
+ ["19. yüzyılda doğup eser vermiş bir şair mi?",p=>p.birth>=1800&&p.birth<1900],
+ ["20. yüzyılda doğmuş bir şair mi?",p=>p.birth>=1900&&p.birth<2000],
+ ["21. yüzyılda da yaşamış mı?",p=>p.death>=2001],
+ ["Cumhuriyet öncesi edebiyatla ilişkili mi?",p=>p.birth<1923],
+ ["Cumhuriyet'in ilk yıllarında da eser vermiş mi?",p=>p.birth<1923&&p.death>=1923],
+ ["Klasik Osmanlı şiiri geleneğinde mi yer alır?",p=>p.periods.includes("Divan edebiyatı")],
+ ["Modern Türk şiirinin Cumhuriyet dönemi kuşağında mı?",p=>p.periods.includes("Cumhuriyet dönemi")],
+ ["13–15. yüzyıllar Anadolu şiir geleneğiyle mi ilişkilidir?",p=>p.name==="Yunus Emre"],
+ ["Tanzimat sonrasındaki yenileşme edebiyatında mı yer alır?",p=>["Namık Kemal","Tevfik Fikret","Mehmet Âkif Ersoy","Yahya Kemal Beyatlı","Ahmet Haşim"].includes(p.name)],
+ ["Cumhuriyet dönemi dışında bir edebî döneme de ait mi?",p=>p.periods.some(x=>x!=="Cumhuriyet dönemi")],
+ ["Şairin şiir geleneğinde sözlü aktarım önemli mi?",p=>p.periods.includes("Halk edebiyatı")||p.periods.includes("Tekke-tasavvuf edebiyatı")]
+].forEach(([t,f])=>addQuestion("Edebî dönem",t,f));
+// 20 AKIM VE TOPLULUK sorusu
+[
+ ["Garip akımının temsilcilerinden mi?",p=>p.movements.includes("Garip")],
+ ["İkinci Yeni hareketiyle ilişkili mi?",p=>p.movements.includes("İkinci Yeni")||p.movements.includes("İkinci Yeni etkisi")],
+ ["Toplumcu gerçekçi şiirle mi tanınır?",p=>p.movements.includes("Toplumcu gerçekçi şiir")||p.movements.includes("Toplumcu şiir")],
+ ["Divan şiiri geleneğine mi bağlı?",p=>p.movements.includes("Divan şiiri")],
+ ["Âşık tarzı halk şiiri geleneğinde mi?",p=>p.movements.includes("Âşık tarzı halk şiiri")],
+ ["Tasavvuf şiiri geleneğiyle mi tanınır?",p=>p.movements.includes("Tasavvuf şiiri")],
+ ["Servetifünun topluluğunda yer aldı mı?",p=>p.movements.includes("Servetifünun")],
+ ["Fecr-i Âti topluluğuyla ilişkili mi?",p=>p.movements.includes("Fecr-i Âti")],
+ ["Maviciler hareketiyle ilişkili mi?",p=>p.movements.includes("Maviciler")],
+ ["Şiirinde Diriliş düşüncesiyle mi tanınır?",p=>p.movements.includes("Diriliş düşüncesi")],
+ ["Sembolizm akımından etkilendi mi?",p=>p.movements.includes("Sembolizm")||p.styles.includes("sembolizm")],
+ ["Saf şiir anlayışıyla mı anılır?",p=>p.movements.includes("Saf şiir")],
+ ["Garip sonrası şiir arayışlarıyla mı ilişkilidir?",p=>p.movements.includes("İkinci Yeni etkisi")],
+ ["Millî edebiyat anlayışıyla mı ilişkilidir?",p=>p.movements.includes("Millî edebiyat")],
+ ["Şiirinde halk şiirinden izler taşır mı?",p=>p.styles.includes("halk şiiri etkisi")||p.movements.includes("Halk şiiri")||p.movements.includes("Âşık tarzı halk şiiri")],
+ ["Şair belirli bir topluluk dışında bağımsız şiiriyle mi tanınır?",p=>p.movements.includes("Bağımsız şiir")],
+ ["Şairin şiiri modernist imge anlayışıyla mı ilişkilendirilir?",p=>p.styles.includes("imge yoğunluğu")],
+ ["Şiirinde toplumsal gerçeklik önemli bir yer tutar mı?",p=>p.styles.includes("toplumsal konular")||p.styles.includes("emek")],
+ ["Şair Garip'in üç önemli isminden biri mi?",p=>["Orhan Veli Kanık","Melih Cevdet Anday","Oktay Rifat"].includes(p.name)],
+ ["Şair İkinci Yeni'nin bilinen isimlerinden biri mi?",p=>p.movements.includes("İkinci Yeni")]
+].forEach(([t,f])=>addQuestion("Akım ve topluluk",t,f));
+// 20 ŞİİR ANLAYIŞI sorusu
+[
+ ["Serbest ölçüyle şiirler yazdı mı?",p=>p.styles.includes("serbest ölçü")],
+ ["Hece ölçüsünü kullandı mı?",p=>p.styles.includes("hece ölçüsü")],
+ ["Aruz ölçüsünü kullandı mı?",p=>p.styles.includes("aruz ölçüsü")],
+ ["Sade ve konuşma diline yakın bir dil kullandı mı?",p=>p.styles.includes("sade dil")],
+ ["Şiirlerinde aşk önemli bir tema mı?",p=>p.styles.includes("aşk")],
+ ["Doğa şiirlerinde önemli bir yer tutar mı?",p=>p.styles.includes("doğa")],
+ ["Vatan sevgisi şiirlerinde öne çıkar mı?",p=>p.styles.includes("vatan sevgisi")],
+ ["Tasavvuf veya inanç şiirinde önemli mi?",p=>p.styles.includes("tasavvuf")||p.styles.includes("inanç")||p.styles.includes("metafizik")],
+ ["Toplumsal sorunları şiirine taşır mı?",p=>p.styles.includes("toplumsal konular")],
+ ["Gündelik hayatı şiirlerine konu eder mi?",p=>p.styles.includes("gündelik hayat")],
+ ["Şiirlerinde mizah veya ironi görülür mü?",p=>p.styles.includes("mizah")],
+ ["Sembolik anlatımdan yararlanır mı?",p=>p.styles.includes("sembolik anlatım")||p.styles.includes("sembolizm")],
+ ["İmge yoğunluğu şiirinin özelliklerinden mi?",p=>p.styles.includes("imge yoğunluğu")],
+ ["Ölüm temasını sıkça işler mi?",p=>p.styles.includes("ölüm")],
+ ["Yalnızlık veya varoluş sorgusu öne çıkar mı?",p=>p.styles.includes("yalnızlık")||p.styles.includes("varoluş")],
+ ["İstanbul sevgisi şiirinde belirgin mi?",p=>p.styles.includes("İstanbul sevgisi")],
+ ["Şiirlerinde çocuklara da seslenir mi?",p=>p.styles.includes("çocuk")],
+ ["Emek ve barış gibi toplumsal temaları işler mi?",p=>p.styles.includes("emek")||p.styles.includes("barış")],
+ ["Kısa ve özlü şiirleriyle tanınır mı?",p=>p.styles.includes("kısa şiir")],
+ ["Şiirlerinde bireysel duygular önemli mi?",p=>p.styles.includes("bireysel duygular")||p.styles.includes("aşk")||p.styles.includes("yalnızlık")]
+].forEach(([t,f])=>addQuestion("Şiir anlayışı",t,f));
+// 20 ESER sorusu
+[
+ ["Anlatamıyorum şiiri bu şaire mi ait?","Orhan Veli Kanık","Anlatamıyorum"],
+ ["İstanbul'u Dinliyorum şiirini bu şair mi yazdı?","Orhan Veli Kanık","İstanbul'u Dinliyorum"],
+ ["Risaletü'n-Nushiyye adlı eser bu şaire mi ait?","Yunus Emre","Risaletü'n-Nushiyye"],
+ ["Leylâ vü Mecnun mesnevisini bu şair mi yazdı?","Fuzuli","Leylâ vü Mecnun"],
+ ["Hüsn ü Aşk adlı eser bu şaire mi ait?","Şeyh Galip","Hüsn ü Aşk"],
+ ["Hürriyet Kasidesi bu şairin eseri mi?","Namık Kemal","Hürriyet Kasidesi"],
+ ["Vatan Yahut Silistre bu şair tarafından mı yazıldı?","Namık Kemal","Vatan Yahut Silistre"],
+ ["Sis şiiri bu şairin eserlerinden biri mi?","Tevfik Fikret","Sis"],
+ ["Safahat bu şairin eseri mi?","Mehmet Âkif Ersoy","Safahat"],
+ ["İstiklâl Marşı'nı bu şair mi yazdı?","Mehmet Âkif Ersoy","İstiklâl Marşı"],
+ ["Sessiz Gemi bu şairin şiiri mi?","Yahya Kemal Beyatlı","Sessiz Gemi"],
+ ["Merdiven şiiri bu şairin eseri mi?","Ahmet Haşim","Merdiven"],
+ ["Kuvâyi Milliye Destanı bu şairin eseri mi?","Nâzım Hikmet","Kuvâyi Milliye Destanı"],
+ ["Kaldırımlar şiiri bu şaire mi ait?","Necip Fazıl Kısakürek","Kaldırımlar"],
+ ["Otuz Beş Yaş şiirini bu şair mi yazdı?","Cahit Sıtkı Tarancı","Otuz Beş Yaş"],
+ ["Rahatı Kaçan Ağaç bu şairin eseri mi?","Melih Cevdet Anday","Rahatı Kaçan Ağaç"],
+ ["Ben Sana Mecburum bu şairin şiiri mi?","Attilâ İlhan","Ben Sana Mecburum"],
+ ["Üvercinka bu şairin eserlerinden biri mi?","Cemal Süreya","Üvercinka"],
+ ["Göğe Bakma Durağı bu şairin şiiri mi?","Turgut Uyar","Göğe Bakma Durağı"],
+ ["Lavinia şiiri bu şairle mi özdeşleşir?","Özdemir Asaf","Lavinia"]
+].forEach(([t,author,work])=>addQuestion("Eserleri",t,p=>p.name===author&&p.works.includes(work)));
 
-let secretPoet;
-let questionCount;
-let usedQuestions;
-let history;
-let guessOpen;
-let gameOver;
-let guessRound;
-
-const $ = id => document.getElementById(id);
-
-function shuffle(items) {
-  return [...items].sort(() => Math.random() - 0.5);
-}
-
-function startGame() {
-  secretPoet = poets[Math.floor(Math.random() * poets.length)];
-  questionCount = 0;
-  usedQuestions = [];
-  history = [];
-  guessOpen = false;
-  gameOver = false;
-  guessRound = 0;
-
-  $("phase").textContent = "Soru turu";
-  $("message").textContent = "İlk tahmin 5 sorudan sonra açılır.";
-  $("guesses").hidden = true;
-  $("questions").hidden = false;
-  $("restart").textContent = "Oyunu sıfırla";
-
-  renderHistory();
-  renderQuestions();
-  updateStatus();
-}
-
-function updateStatus() {
-  $("status").textContent =
-    `Sorular: ${questionCount} | ` +
-    (guessOpen ? "Tahmin hakkı açık" : "Tahmin hakkı kapalı");
-}
-
-function renderQuestions() {
-  const area = $("questions");
-  area.replaceChildren();
-
-  if (gameOver || guessOpen) return;
-
-  const available = questions.filter(
-    q => !usedQuestions.includes(q.key)
-  );
-
-  if (available.length === 0) {
-    $("message").textContent =
-      "Bütün sorular soruldu! Tahminini yapabilirsin.";
-    openGuess();
-    return;
-  }
-
-  // Her seferinde en fazla 4 soru göster.
-  const visibleQuestions = shuffle(available).slice(0, 4);
-
-visibleQuestions.forEach(q => {
-  const button = document.createElement("button");
-
-  const category = document.createElement("span");
-  category.className = "question-category";
-  category.textContent = q.category;
-
-  const questionText = document.createElement("span");
-  questionText.textContent = q.text;
-
-  button.append(category, questionText);
-  button.onclick = () => askQuestion(q);
-  area.appendChild(button);
-});
-
-  // Kalan sorular arasından yeni seçenekler getir.
-  if (available.length > 4) {
-    const moreButton = document.createElement("button");
-    moreButton.textContent = "🔄 Başka sorular göster";
-    moreButton.className = "more-questions";
-    moreButton.onclick = renderQuestions;
-    area.appendChild(moreButton);
-  }
-}
-
-function askQuestion(question) {
-  if (gameOver || guessOpen) return;
-
-  usedQuestions.push(question.key);
-  questionCount++;
-
-  const answer = secretPoet.facts[question.key]
-    ? "Evet"
-    : "Hayır";
-
-  history.push({
-    question: question.text,
-    answer: answer
-  });
-
-  renderHistory();
-  updateStatus();
-
-  // İlk tahmin 5 sorudan sonra, sonrakiler 3 soruda bir.
-  const nextThreshold = guessRound === 0
-    ? 5
-    : 5 + guessRound * 3;
-
-  if (questionCount >= nextThreshold) {
-    openGuess();
-  } else {
-    $("message").textContent =
-      `Cevap: ${answer}. ` +
-      `${nextThreshold - questionCount} soru daha sor.`;
-    renderQuestions();
-  }
-}
-
-function renderHistory() {
-  const area = $("history");
-  area.replaceChildren();
-
-  if (history.length === 0) {
-    area.textContent = "Henüz soru sorulmadı.";
-    return;
-  }
-
-  history.forEach((item, index) => {
-    const p = document.createElement("p");
-    p.textContent =
-      `${index + 1}. ${item.question} — ${item.answer}`;
-    area.appendChild(p);
-  });
-}
-
-function openGuess() {
-  guessOpen = true;
-  guessRound++;
-
-  $("phase").textContent = "Tahmin zamanı";
-  $("message").textContent = "Gizli şair kim?";
-  $("questions").hidden = true;
-  $("guesses").hidden = false;
-  $("guesses").replaceChildren();
-
-  poets.forEach(poet => {
-    const button = document.createElement("button");
-    button.textContent = poet.name;
-    button.onclick = () => makeGuess(poet);
-    $("guesses").appendChild(button);
-  });
-
-  updateStatus();
-}
-
-function makeGuess(poet) {
-  if (!guessOpen || gameOver) return;
-
-  if (poet.name === secretPoet.name) {
-    gameOver = true;
-    guessOpen = false;
-
-    $("phase").textContent = "Doğru tahmin!";
-    $("message").textContent =
-      `Gizli şair ${secretPoet.name}. Oyunu kazandın!`;
-    $("guesses").hidden = true;
-    $("questions").hidden = true;
-    updateStatus();
-    return;
-  }
-
-  // Birden fazla şair eklendiğinde yanlış tahmin buraya düşer.
-  guessOpen = false;
-  $("guesses").hidden = true;
-  $("questions").hidden = false;
-  $("phase").textContent = "Soru turu";
-  $("message").textContent =
-    "Yanlış tahmin. 3 yeni soru sor, sonra tekrar dene.";
-
-  renderQuestions();
-  updateStatus();
-}
-
-$("restart").onclick = startGame;
-
+let secretPoet, questionCount, usedQuestions, history, guessOpen, gameOver, guessRound, incorrectGuesses, visibleQuestionIds;
+const $=id=>document.getElementById(id);
+const shuffle=items=>{const a=[...items];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+function setTheme(theme){document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme;$('themeSelect').value=theme;$('themeQuick').textContent=theme==='dark'?'☀️ Açık tema':'🌙 Koyu tema';try{localStorage.setItem('sairKimTheme',theme)}catch(e){}}
+function getCandidates(){return poets.filter(p=>!incorrectGuesses.includes(p.name)&&history.every(h=>h.answer===h.question.test(p)));}
+function startGame(){secretPoet=poets[Math.floor(Math.random()*poets.length)];questionCount=0;usedQuestions=[];history=[];guessOpen=false;gameOver=false;guessRound=0;incorrectGuesses=[];visibleQuestionIds=[];$('phase').textContent='Soru turu';$('message').textContent='İlk tahmin 5 sorudan sonra açılır. Sonrasında her 3 soruda bir tahmin yapabilirsin.';$('questions').hidden=false;$('guesses').hidden=true;$('result').hidden=true;$('giveUp').hidden=false;$('candidatePanel').hidden=true;$('showCandidates').textContent='Olası şairleri göster';$('categoryFilter').value='all';renderHistory();updateStatus();renderQuestions();}
+function nextGuessAt(){return guessRound===0?5:5+guessRound*3;}
+function updateStatus(){ $('status').textContent=`${questionCount} / ${questions.length} soru`;const candidates=getCandidates();$('candidateCount').textContent=`${candidates.length} olası şair`;const pct=questionCount/questions.length*100;$('progressFill').style.width=`${pct}%`;$('progressTrack').setAttribute('aria-valuenow',String(questionCount));$('historyCount').textContent=`${history.length} kayıt`; }
+function renderQuestions(){const area=$('questions');area.replaceChildren();if(gameOver||guessOpen)return;const category=$('categoryFilter').value;const available=questions.filter(q=>!usedQuestions.includes(q.id)&&(category==='all'||q.category===category));if(!available.length){area.innerHTML='<p class="small">Bu kategoride sorulmamış soru kalmadı. Başka kategori seçebilir veya tahminini yapabilirsin.</p>';return;}const count=Number($('cardsPerTurn').value);visibleQuestionIds=shuffle(available).slice(0,count).map(q=>q.id);visibleQuestionIds.forEach(id=>{const q=questions.find(x=>x.id===id);const button=document.createElement('button');button.type='button';button.className='question-card';button.setAttribute('aria-label',`${q.category}: ${q.text}`);const categoryLabel=document.createElement('span');categoryLabel.className='question-category';categoryLabel.textContent=q.category;const text=document.createElement('span');text.className='question-text';text.textContent=q.text;const number=document.createElement('span');number.className='card-number';number.textContent=`SORU ${usedQuestions.length+1} · KARTI SEÇ`;button.append(categoryLabel,text,number);button.addEventListener('click',()=>askQuestion(q));area.appendChild(button);});const more=document.createElement('div');more.className='more-row';const btn=document.createElement('button');btn.type='button';btn.className='secondary';btn.textContent='🔄 Başka sorular göster';btn.addEventListener('click',renderQuestions);more.appendChild(btn);area.appendChild(more);}
+function askQuestion(q){if(gameOver||guessOpen||usedQuestions.includes(q.id))return;const answer=Boolean(q.test(secretPoet));usedQuestions.push(q.id);questionCount++;history.push({question:q,answer});renderHistory();updateStatus();const threshold=nextGuessAt();if(questionCount>=threshold){openGuess();}else{const remaining=Math.max(0,threshold-questionCount);$('message').textContent=`${answer?'Evet!':'Hayır!'} ${remaining} soru daha sorunca tahmin yapabilirsin.`;renderQuestions();}if(questionCount>=questions.length&&!guessOpen&&!gameOver){openGuess();}}
+function renderHistory(){const area=$('history');area.replaceChildren();if(!history.length){const p=document.createElement('p');p.className='small';p.textContent='Henüz soru sorulmadı.';area.appendChild(p);return;}history.forEach((h,i)=>{const item=document.createElement('div');item.className='history-item';const left=document.createElement('div');const small=document.createElement('small');small.textContent=`${i+1}. ${h.question.category}`;const text=document.createElement('strong');text.textContent=h.question.text;left.append(small,text);const answer=document.createElement('span');answer.className=`answer ${h.answer?'':'no'}`;answer.textContent=h.answer?'EVET':'HAYIR';item.append(left,answer);area.appendChild(item);});}
+function renderCandidates(){const candidates=getCandidates();$('candidateList').replaceChildren();candidates.forEach(p=>{const tag=document.createElement('span');tag.className='candidate';tag.textContent=p.name;$('candidateList').appendChild(tag);});if(!candidates.length){const p=document.createElement('p');p.className='small';p.textContent='Cevaplarla eşleşen şair kalmadı. Bu durum bazı biyografik ayrıntıların basitleştirilmiş olmasından kaynaklanabilir; yeni oyun başlatabilirsin.';$('candidateList').appendChild(p);}}
+function openGuess(){guessOpen=true;guessRound++;$('phase').textContent='Tahmin zamanı';$('message').textContent='İpuçlarını düşün ve olası şairlerden birini seç.';$('questions').hidden=true;$('guesses').hidden=false;$('guesses').replaceChildren();$('result').hidden=true;const candidates=getCandidates();const choices=candidates.length?candidates:poets.filter(p=>!incorrectGuesses.includes(p.name));choices.forEach(p=>{const b=document.createElement('button');b.type='button';b.className='guess-button';b.textContent=p.name;b.addEventListener('click',()=>makeGuess(p));$('guesses').appendChild(b);});updateStatus();}
+function makeGuess(poet){if(!guessOpen||gameOver)return;if(poet.name===secretPoet.name){gameOver=true;guessOpen=false;$('phase').textContent='Doğru tahmin!';$('message').textContent=`Buldun! Gizli şair ${secretPoet.name}.`; $('guesses').hidden=true;$('questions').hidden=true;$('result').hidden=false;$('result').className='end-banner';$('result').textContent=`🎉 Tebrikler! ${secretPoet.name} doğru cevaptı. ${questionCount} soruda buldun.`;$('giveUp').hidden=true;}else{incorrectGuesses.push(poet.name);guessOpen=false;$('guesses').hidden=true;$('questions').hidden=false;$('phase').textContent='Soru turu';$('message').textContent=`Bu kez ${poet.name} değil. ${Math.max(0,nextGuessAt()-questionCount)} yeni soru sor, sonra tekrar dene.`;renderQuestions();}updateStatus();if(!$('candidatePanel').hidden)renderCandidates();}
+$('restart').addEventListener('click',startGame);$('newGameTop').addEventListener('click',startGame);$('categoryFilter').addEventListener('change',renderQuestions);$('cardsPerTurn').addEventListener('change',renderQuestions);$('showCandidates').addEventListener('click',()=>{const panel=$('candidatePanel');panel.hidden=!panel.hidden;if(!panel.hidden)renderCandidates();$('showCandidates').textContent=panel.hidden?'Olası şairleri göster':'Olası şairleri gizle';});$('themeQuick').addEventListener('click',()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark'));$('themeSelect').addEventListener('change',e=>setTheme(e.target.value));$('giveUp').addEventListener('click',()=>{if(gameOver)return;gameOver=true;guessOpen=false;$('phase').textContent='Cevap açıklandı';$('message').textContent=`Gizli şair: ${secretPoet.name}.`;$('questions').hidden=true;$('guesses').hidden=true;$('result').hidden=false;$('result').className='end-banner';$('result').textContent=`Gizli şair ${secretPoet.name} idi. Yeni oyunla tekrar deneyebilirsin.`;$('giveUp').hidden=true;updateStatus();});
+// Güvenlik ağı: kategori başına tam 20, toplam tam 100 soru.
+if(questions.length!==100||categories.some(c=>questions.filter(q=>q.category===c).length!==20)){console.error('Soru havuzu kontrolü başarısız:',questions.length);}
+try{setTheme(localStorage.getItem('sairKimTheme')==='dark'?'dark':'light')}catch(e){setTheme('light')}
 startGame();
 </script>
 </body>
