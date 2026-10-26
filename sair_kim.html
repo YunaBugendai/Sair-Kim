@@ -1,0 +1,614 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Şair Kim?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap');
+
+:root {
+  --ink: #30264e;
+  --purple: #7958e8;
+  --pink: #ff719d;
+  --yellow: #ffcf5c;
+  --teal: #50d6c5;
+  --paper: #fffdf8;
+  --muted: #766e91;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 28px 16px 60px;
+  color: var(--ink);
+  font-family: 'Nunito', sans-serif;
+  background-color: #f5edff;
+  background-image:
+    radial-gradient(circle at 8% 15%, #ffcf5c80 0 65px, transparent 67px),
+    radial-gradient(circle at 92% 22%, #ff719d45 0 95px, transparent 97px),
+    radial-gradient(circle at 12% 85%, #50d6c545 0 110px, transparent 112px),
+    radial-gradient(circle at 90% 80%, #a18aff45 0 80px, transparent 82px);
+}
+
+body::before {
+  content: "✦  ✧  ★  ✦";
+  position: fixed;
+  top: 12px;
+  right: 18px;
+  font-size: 25px;
+  letter-spacing: 12px;
+  color: #7958e8;
+  opacity: .55;
+  pointer-events: none;
+}
+
+body > h1,
+body > p,
+body > section {
+  width: min(100%, 760px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body > h1 {
+  text-align: center;
+  font: 700 clamp(38px, 8vw, 64px)/1.1 'Fredoka', sans-serif;
+  color: var(--purple);
+  letter-spacing: -1px;
+  text-shadow: 0 4px 0 #d8caff;
+  margin-top: 24px;
+  margin-bottom: 10px;
+}
+
+body > p {
+  text-align: center;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--muted);
+  margin-bottom: 30px;
+}
+
+section {
+  background: var(--paper);
+  padding: clamp(20px, 5vw, 34px);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 3px solid white;
+  border-radius: 28px;
+  box-shadow:
+    0 8px 0 #dcd0fa,
+    0 15px 35px #49307812;
+  position: relative;
+  animation: popIn .45s ease both;
+}
+
+section:nth-of-type(2) {
+  animation-delay: .08s;
+}
+
+h2 {
+  font: 700 25px/1.2 'Fredoka', sans-serif;
+  color: var(--purple);
+  margin: 0 0 18px;
+}
+
+#phase {
+  display: inline-block;
+  padding: 10px 17px;
+  color: white;
+  background: var(--purple);
+  border-radius: 14px;
+  transform: rotate(-1deg);
+}
+
+#status {
+  display: inline-block;
+  margin: 12px 0;
+  padding: 8px 13px;
+  background: #fff0bd;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 14px;
+}
+
+#message {
+  padding: 14px 16px;
+  background: #f0ebff;
+  border-left: 5px solid var(--purple);
+  border-radius: 12px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+#questions,
+#guesses {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: 13px;
+  margin: 22px 0;
+}
+
+button {
+  font: 800 16px/1.35 'Nunito', sans-serif;
+  color: var(--ink);
+  background: white;
+  border: 2px solid #e3dcf6;
+  border-radius: 17px;
+  padding: 15px 17px;
+  min-height: 58px;
+  cursor: pointer;
+  box-shadow: 0 5px 0 #e3dcf6;
+  transition:
+    transform .16s ease,
+    box-shadow .16s ease,
+    background .16s ease;
+}
+
+#questions button {
+  text-align: left;
+  background: #fff;
+}
+
+#questions button::before {
+  content: "💬 ";
+}
+
+#questions button:nth-child(4n + 1) {
+  border-color: #ffb4ca;
+  box-shadow: 0 5px 0 #ffb4ca;
+}
+
+#questions button:nth-child(4n + 2) {
+  border-color: #bdb0ff;
+  box-shadow: 0 5px 0 #bdb0ff;
+}
+
+#questions button:nth-child(4n + 3) {
+  border-color: #8ce5d9;
+  box-shadow: 0 5px 0 #8ce5d9;
+}
+
+#questions button:nth-child(4n) {
+  border-color: #ffda81;
+  box-shadow: 0 5px 0 #ffda81;
+}
+
+button:hover {
+  transform: translateY(-3px) rotate(-.5deg);
+  filter: saturate(1.1);
+}
+
+button:active {
+  transform: translateY(3px);
+  box-shadow: none !important;
+}
+
+#guesses button {
+  background: #f0ebff;
+  border: 3px solid #c8b9ff;
+  box-shadow: 0 5px 0 #c8b9ff;
+  text-align: center;
+  font: 700 20px 'Fredoka', sans-serif;
+  padding: 25px 15px;
+}
+
+#guesses button::before {
+  content: "🖋️";
+  display: block;
+  font-size: 34px;
+  margin-bottom: 10px;
+}
+
+#restart {
+  background: var(--yellow);
+  border: 2px solid #f2bd40;
+  box-shadow: 0 5px 0 #e5ae32;
+  margin-top: 12px;
+}
+
+#history p {
+  padding: 14px 16px;
+  margin: 10px 0;
+  background: #f4f0ff;
+  border: 2px solid #e7dfff;
+  border-radius: 14px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+#history p:nth-child(3n + 1) {
+  background: #fff1f5;
+  border-color: #ffd1df;
+}
+
+#history p:nth-child(3n + 2) {
+  background: #eafffb;
+  border-color: #c5f4ed;
+}
+
+#history p:nth-child(3n) {
+  background: #fff8e5;
+  border-color: #ffe7a6;
+}
+
+#history p::first-letter {
+  color: var(--purple);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 500px) {
+  body {
+    padding: 18px 12px 35px;
+  }
+
+  body > h1 {
+    margin-top: 35px;
+  }
+
+  section {
+    border-radius: 22px;
+    padding: 19px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  #questions,
+  #guesses {
+    grid-template-columns: 1fr;
+  }
+
+  button {
+    min-height: 54px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+#questions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  padding: 28px 12px 38px;
+}
+
+#questions button {
+  box-sizing: border-box;
+  position: relative;
+  width: 190px;
+  min-height: 150px;
+  margin: 0 -13px;
+  padding: 18px 15px;
+  border: 4px solid white;
+  border-radius: 20px;
+  background: #ffe082;
+  color: #27304f;
+  box-shadow: 0 5px 0 #00000020, 0 9px 18px #00000018;
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.4;
+  cursor: pointer;
+  transform: rotate(-3deg);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#questions button:nth-child(4n + 1) {
+  background: #ffcf70;
+  transform: rotate(-6deg);
+}
+
+#questions button:nth-child(4n + 2) {
+  background: #a8e6cf;
+  transform: rotate(3deg);
+}
+
+#questions button:nth-child(4n + 3) {
+  background: #b8d9ff;
+  transform: rotate(-2deg);
+}
+
+#questions button:nth-child(4n) {
+  background: #ffc4d6;
+  transform: rotate(5deg);
+}
+
+#questions button:hover {
+  z-index: 5;
+  transform: translateY(-12px) rotate(0deg) scale(1.04);
+  box-shadow: 0 8px 0 #00000015, 0 15px 25px #00000020;
+}
+
+#questions button:active {
+  transform: scale(0.96);
+}
+
+#questions .question-category {
+  display: block;
+  margin-bottom: 12px;
+  color: #4b4773;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+#questions .more-questions {
+  width: auto;
+  min-height: 44px;
+  margin: 22px 0 0;
+  padding: 10px 18px;
+  transform: rotate(0deg);
+  background: #ffffff;
+  font-size: 13px;
+}
+
+</style>
+</head>
+<body>
+
+<h1>Şair Kim?</h1>
+<p class="muted">Soruları cevapla, ipuçlarını biriktir ve şairi tahmin et.</p>
+
+<section>
+  <h2 id="phase">Soru turu</h2>
+  <p id="status">Sorular: 0</p>
+  <p id="message">İlk tahmin 5 sorudan sonra açılır.</p>
+  <div id="questions"></div>
+  <div id="guesses" hidden></div>
+  <button id="restart">Oyunu sıfırla</button>
+</section>
+
+<section>
+  <h2>Soru geçmişi</h2>
+  <div id="history">Henüz soru sorulmadı.</div>
+</section>
+
+<script>
+const poets = [
+  {
+    name: "Orhan Veli Kanık",
+    image: "",
+    facts: {
+      republic: true,
+      garip: true,
+      freeVerse: true,
+      syllabic: false,
+      bornBefore1900: false
+    }
+  }
+];
+
+const questions = [
+  { key: "republic", text: "Cumhuriyet döneminde eser verdi mi?", category: "Dönemi" },
+  { key: "garip", text: "Garip akımının kurucularından biri mi?", category: "Şiir Anlayışı" },
+  { key: "freeVerse", text: "Serbest ölçüyle şiirler yazdı mı?", category: "Şiir Tarzı" },
+  { key: "syllabic", text: "Hece ölçüsünü temel ölçü olarak kullandı mı?", category: "Şiir Tarzı" },
+  { key: "bornBefore1900", text: "1900 yılından önce mi doğdu?", category: "Hayatı" }
+];
+
+let secretPoet;
+let questionCount;
+let usedQuestions;
+let history;
+let guessOpen;
+let gameOver;
+let guessRound;
+
+const $ = id => document.getElementById(id);
+
+function shuffle(items) {
+  return [...items].sort(() => Math.random() - 0.5);
+}
+
+function startGame() {
+  secretPoet = poets[Math.floor(Math.random() * poets.length)];
+  questionCount = 0;
+  usedQuestions = [];
+  history = [];
+  guessOpen = false;
+  gameOver = false;
+  guessRound = 0;
+
+  $("phase").textContent = "Soru turu";
+  $("message").textContent = "İlk tahmin 5 sorudan sonra açılır.";
+  $("guesses").hidden = true;
+  $("questions").hidden = false;
+  $("restart").textContent = "Oyunu sıfırla";
+
+  renderHistory();
+  renderQuestions();
+  updateStatus();
+}
+
+function updateStatus() {
+  $("status").textContent =
+    `Sorular: ${questionCount} | ` +
+    (guessOpen ? "Tahmin hakkı açık" : "Tahmin hakkı kapalı");
+}
+
+function renderQuestions() {
+  const area = $("questions");
+  area.replaceChildren();
+
+  if (gameOver || guessOpen) return;
+
+  const available = questions.filter(
+    q => !usedQuestions.includes(q.key)
+  );
+
+  if (available.length === 0) {
+    $("message").textContent =
+      "Bütün sorular soruldu! Tahminini yapabilirsin.";
+    openGuess();
+    return;
+  }
+
+  // Her seferinde en fazla 4 soru göster.
+  const visibleQuestions = shuffle(available).slice(0, 4);
+
+visibleQuestions.forEach(q => {
+  const button = document.createElement("button");
+
+  const category = document.createElement("span");
+  category.className = "question-category";
+  category.textContent = q.category;
+
+  const questionText = document.createElement("span");
+  questionText.textContent = q.text;
+
+  button.append(category, questionText);
+  button.onclick = () => askQuestion(q);
+  area.appendChild(button);
+});
+
+  // Kalan sorular arasından yeni seçenekler getir.
+  if (available.length > 4) {
+    const moreButton = document.createElement("button");
+    moreButton.textContent = "🔄 Başka sorular göster";
+    moreButton.className = "more-questions";
+    moreButton.onclick = renderQuestions;
+    area.appendChild(moreButton);
+  }
+}
+
+function askQuestion(question) {
+  if (gameOver || guessOpen) return;
+
+  usedQuestions.push(question.key);
+  questionCount++;
+
+  const answer = secretPoet.facts[question.key]
+    ? "Evet"
+    : "Hayır";
+
+  history.push({
+    question: question.text,
+    answer: answer
+  });
+
+  renderHistory();
+  updateStatus();
+
+  // İlk tahmin 5 sorudan sonra, sonrakiler 3 soruda bir.
+  const nextThreshold = guessRound === 0
+    ? 5
+    : 5 + guessRound * 3;
+
+  if (questionCount >= nextThreshold) {
+    openGuess();
+  } else {
+    $("message").textContent =
+      `Cevap: ${answer}. ` +
+      `${nextThreshold - questionCount} soru daha sor.`;
+    renderQuestions();
+  }
+}
+
+function renderHistory() {
+  const area = $("history");
+  area.replaceChildren();
+
+  if (history.length === 0) {
+    area.textContent = "Henüz soru sorulmadı.";
+    return;
+  }
+
+  history.forEach((item, index) => {
+    const p = document.createElement("p");
+    p.textContent =
+      `${index + 1}. ${item.question} — ${item.answer}`;
+    area.appendChild(p);
+  });
+}
+
+function openGuess() {
+  guessOpen = true;
+  guessRound++;
+
+  $("phase").textContent = "Tahmin zamanı";
+  $("message").textContent = "Gizli şair kim?";
+  $("questions").hidden = true;
+  $("guesses").hidden = false;
+  $("guesses").replaceChildren();
+
+  poets.forEach(poet => {
+    const button = document.createElement("button");
+    button.textContent = poet.name;
+    button.onclick = () => makeGuess(poet);
+    $("guesses").appendChild(button);
+  });
+
+  updateStatus();
+}
+
+function makeGuess(poet) {
+  if (!guessOpen || gameOver) return;
+
+  if (poet.name === secretPoet.name) {
+    gameOver = true;
+    guessOpen = false;
+
+    $("phase").textContent = "Doğru tahmin!";
+    $("message").textContent =
+      `Gizli şair ${secretPoet.name}. Oyunu kazandın!`;
+    $("guesses").hidden = true;
+    $("questions").hidden = true;
+    updateStatus();
+    return;
+  }
+
+  // Birden fazla şair eklendiğinde yanlış tahmin buraya düşer.
+  guessOpen = false;
+  $("guesses").hidden = true;
+  $("questions").hidden = false;
+  $("phase").textContent = "Soru turu";
+  $("message").textContent =
+    "Yanlış tahmin. 3 yeni soru sor, sonra tekrar dene.";
+
+  renderQuestions();
+  updateStatus();
+}
+
+$("restart").onclick = startGame;
+
+startGame();
+</script>
+</body>
+</html>
